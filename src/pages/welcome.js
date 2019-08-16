@@ -1,5 +1,4 @@
 import React from 'react';
-// import Button from "element-react/src/button";
 import {Button} from 'element-react';
 
 class Welcome extends React.Component {
@@ -26,17 +25,27 @@ class Welcome extends React.Component {
         this.setState(state => ({
             isToggleOn: !state.isToggleOn
         }));
-        this.props.history.push('/form')
+        this.props.history.push({pathname : '/form/33', query: {name: '李老师'}, xx: {}})
         // this.context.router.push('/path')
         // this.props.location = '/form'
     }
 
     componentDidMount() {
-        console.log('componentDidMount')
+        console.info('welcome componentDidMount')
     }
 
     componentWillUnmount() {
-        console.log('componentWillUnmount')
+        console.info('welcome componentWillUnmount')
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.info('在最近一次渲染输出（提交到 DOM 节点）之前调用')
+        return null;
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        console.info('初始挂载及后续更新时都会被调用')
+        return state
     }
 }
 

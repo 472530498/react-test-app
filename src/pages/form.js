@@ -1,33 +1,64 @@
 import React from 'react';
 // import Button from "element-react/src/button";
-// import {Button} from 'element-react';
+import {Button, Input, Select, Form} from 'element-react';
 
-class Form extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>表单,  {this.state.isToggleOn ? 'ON' : 'OFF'}</h1>
-                {/*<Button type="primary" onClick={this.handleClick.bind(this, '刘谦')}>点击填写表单</Button>*/}
-            </div>
-        );
-    }
-
+class PageOne extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isToggleOn: true};
 
-        // 为了在回调中使用 `this`，这个绑定是必不可少的
-        // this.handleClick = this.handleClick.bind(this);
+        this.state = {
+            form: {
+                name: '',
+                region: '',
+                date1: null,
+                date2: null,
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+            }
+        };
     }
 
-    handleClick(name) {
-        console.log(this)
-        console.log(name)
-        this.setState(state => ({
-            isToggleOn: !state.isToggleOn
-        }));
-        this.props.history.push('/123')
+    onSubmit(e) {
+        e.preventDefault();
+    }
+
+    onChange(key, value) {
+        this.setState(state => {
+            state.form[key] = value;
+        })
+        this.forceUpdate();
+    }
+
+    componentDidMount() {
+        console.log(this.props.location.query.name)
+        console.info('form componentDidMount')
+    }
+
+    componentWillUnmount() {
+        console.info('form componentWillUnmount')
+    }
+
+    render() {
+        return (
+            <Form model={this.state.form} labelWidth="80" onSubmit={this.onSubmit.bind(this)}>
+                <Form.Item label="活动名称">
+                    <Input value={this.state.form.name} onChange={this.onChange.bind(this, 'name')}></Input>
+                </Form.Item>
+                <Form.Item label="活动区域">
+                    <Select value={this.state.form.region} placeholder="请选择活动区域">
+                        <Select.Option label="区域一" value="shanghai"></Select.Option>
+                        <Select.Option label="区域二" value="beijing"></Select.Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" nativeType="submit">立即创建</Button>
+                    <Button>取消</Button>
+                </Form.Item>
+            </Form>
+        )
     }
 }
 
-export {Form}
+export {PageOne}
